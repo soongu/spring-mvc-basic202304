@@ -13,6 +13,30 @@
         margin-top: 200px;
         margin-bottom: 200px;
     }
+
+    .profile {
+        margin-bottom: 70px;
+        text-align: center;
+    }
+    .profile label {
+        font-weight: 700;
+        font-size: 1.2em;
+        cursor: pointer;
+        color: rgb(140, 217, 248);
+    }
+    .profile .thumbnail-box {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 30px auto 10px;
+        cursor: pointer;
+    }
+  
+    .profile .thumbnail-box img {
+        width: 200px;
+        height: 200px;
+    }
 </style>
 
 </head>
@@ -31,7 +55,23 @@
 
 
                         <form action="/members/sign-up" name="signup" id="signUpForm" method="post"
-                            style="margin-bottom: 0;">
+                            style="margin-bottom: 0;" enctype="multipart/form-data">
+
+                            <div class="profile">
+                                <div class="thumbnail-box">
+                                    <img src="/assets/img/image-add.png" alt="프로필 썸네일">
+                                </div>
+
+                                <label for="profile-img">프로필 이미지 추가</label>
+
+                                <input 
+                                    type="file"
+                                    id="profile-img" 
+                                    accept="image/*"
+                                    style="display: none;"
+                                    name="profileImage"
+                                >
+                            </div>
 
 
                             <table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
@@ -176,7 +216,7 @@
         };
 
         // 패스워드 검사 정규표현식
-        const passwordPattern = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/;
+        const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
 
         // 패스워드 입력값 검증
         const $pwInput = document.getElementById('password');
@@ -325,6 +365,38 @@
             }
         };
 
+
+        // 프로필 사진 관련 스크립트
+        const $profile = document.querySelector('.profile');
+        const $fileInput = document.getElementById('profile-img');
+
+        // 프로필 영역 클릭 이벤트
+        $profile.onclick = e => {
+            // 영역 클릭시 input[type=file]을 클릭하게 함
+            $fileInput.click();
+        };
+
+        // 썸네일 띄우기 이벤트
+        $fileInput.onchange = e => {
+            
+            // 첨부파일의 데이터를 읽어옴
+            const fileData = $fileInput.files[0];
+            console.log(fileData.files);
+
+            // 첨부파일의 바이트데이터를 읽는 객체 생성
+            const reader = new FileReader();
+
+            // 파일 바이트데이터를 img src나 a의 href에 넣기위한
+            // 모양으로 바꿔서 로딩해줌
+            reader.readAsDataURL(fileData);
+            
+            // 첨부파일이 등록되는 순간에 이미지 셋팅
+            reader.onloadend = e => {
+                // 이미지 src 등록
+                const $imgTag = document.querySelector('.thumbnail-box img');
+                $imgTag.setAttribute('src', reader.result);
+            };
+        };
 
     </script>
 

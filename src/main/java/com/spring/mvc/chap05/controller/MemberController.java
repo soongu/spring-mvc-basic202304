@@ -4,9 +4,10 @@ import com.spring.mvc.chap05.dto.request.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.service.LoginResult;
 import com.spring.mvc.chap05.service.MemberService;
-import com.spring.mvc.util.LoginUtil;
+import com.spring.mvc.util.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static com.spring.mvc.chap05.service.LoginResult.*;
-import static com.spring.mvc.util.LoginUtil.*;
+import static com.spring.mvc.chap05.service.LoginResult.SUCCESS;
+import static com.spring.mvc.util.LoginUtil.isAutoLogin;
+import static com.spring.mvc.util.LoginUtil.isLogin;
 
 @Controller
 @Slf4j
@@ -28,7 +30,11 @@ import static com.spring.mvc.util.LoginUtil.*;
 @RequestMapping("/members")
 public class MemberController {
 
+    @Value("${upload.file.location}")
+    private String profileUploadPath;
+
     private final MemberService memberService;
+
 
     // 회원 가입 요청
     // 회원가입 양식 요청
@@ -42,10 +48,16 @@ public class MemberController {
     @PostMapping("/sign-up")
     public String signUp(SignUpRequestDTO dto) {
         log.info("/members/sign-up POST ! - {}", dto);
+        log.info("fileName: {}", dto.getProfileImage().getOriginalFilename());
+        log.info("file-type: {}", dto.getProfileImage().getContentType());
+        log.info("file-size: {}", dto.getProfileImage().getSize());
 
-        boolean flag = memberService.join(dto);
+        FileUtils.uploadFile(profileUploadPath, dto.getProfileImage());
 
-        return "redirect:/board/list";
+        // boolean flag = memberService.join(dto);
+
+        // return "redirect:/board/list";
+        return "";
     }
 
     // 아이디, 이메일 중복검사
