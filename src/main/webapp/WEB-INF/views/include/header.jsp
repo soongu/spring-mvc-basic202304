@@ -9,6 +9,14 @@
                 <img src="/assets/img/logo.png" alt="로고이미지">
             </a>
         </h1>
+        <div class="profile-box">
+            <c:if test="${login == null}">
+                <img src="/assets/img/anonymous.jpg" alt="profile-image">
+            </c:if>
+            <c:if test="${login != null}">
+                <img src="/upload${login.profileImage}" alt="profile-image">
+            </c:if>
+        </div>
         <h2 class="intro-text">Welcome ${(login == null) ? '' : login.account}</h2>
         <a href="#" class="menu-open">
             <span class="menu-txt">MENU</span>

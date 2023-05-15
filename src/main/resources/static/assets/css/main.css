@@ -68,6 +68,19 @@ header .inner-header .logo a {
 header .inner-header .logo a img {
     height: 60px;
 }
+
+/* 프로필 css */
+header .inner-header .profile-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+header .inner-header .profile-box img {
+    width: 100%;
+}
+
+
 header .inner-header .intro-text {
     /* background: greenyellow; */
     flex: 4;

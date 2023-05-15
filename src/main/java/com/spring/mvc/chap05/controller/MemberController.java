@@ -52,12 +52,11 @@ public class MemberController {
         log.info("file-type: {}", dto.getProfileImage().getContentType());
         log.info("file-size: {}", dto.getProfileImage().getSize());
 
-        FileUtils.uploadFile(profileUploadPath, dto.getProfileImage());
+        String profilePath = FileUtils.uploadFile(profileUploadPath, dto.getProfileImage());
 
-        // boolean flag = memberService.join(dto);
+         boolean flag = memberService.join(dto, profilePath);
 
-        // return "redirect:/board/list";
-        return "";
+        return "redirect:/";
     }
 
     // 아이디, 이메일 중복검사

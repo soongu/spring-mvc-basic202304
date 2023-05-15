@@ -108,6 +108,25 @@
             color: #fff !important;
         }
 
+        .profile-box {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 10px auto;
+        }
+        .profile-box img {
+            width: 100%;
+        }
+
+        .reply-profile {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+
+        }
+
     </style>
 </head>
 <body>
@@ -154,6 +173,9 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="newReplyWriter" hidden>댓글 작성자</label>
+                                        <div class="profile-box">
+                                            <img src="/upload${login.profileImage}" alt="프로필">
+                                        </div>
                                         <input id="newReplyWriter" name="replyWriter" type="text"
                                             class="form-control" placeholder="작성자 이름"
                                             style="margin-bottom: 6px;" value="${login.nickName}" readonly>
@@ -314,11 +336,14 @@
             } else {
                 for (let rep of replies) {
 
-                    const {rno, writer, text, regDate, account} = rep;
+                    const {rno, writer, text, regDate, account, profileImage} = rep;
 
                     tag += "<div id='replyContent' class='card-body' data-replyId='" + rno + "'>" +
                         "    <div class='row user-block'>" +
                         "       <span class='col-md-3'>" +
+                            (profileImage 
+                            ? `<img class='reply-profile' src='/upload\${profileImage}' alt='profile'>` 
+                            : `<img class='reply-profile' src='/assets/img/anonymous.jpg' alt='profile'>`) +
                         "         <b>" + writer + "</b>" +
                         "       </span>" +
                         "       <span class='offset-md-6 col-md-3 text-right'><b>" + regDate +
@@ -413,7 +438,7 @@
                             alert('댓글이 정상 등록됨!');
                             // 입력창 비우기
                             $rt.value = '';
-                            $rw.value = '';
+                            // $rw.value = '';
 
                             // 마지막페이지 번호
                             const lastPageNo = document.querySelector('.pagination').dataset.fp;
