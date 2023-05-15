@@ -340,18 +340,18 @@
 
                     tag += "<div id='replyContent' class='card-body' data-replyId='" + rno + "'>" +
                         "    <div class='row user-block'>" +
-                        "       <span class='col-md-3'>" +
+                        "       <span class='col-md-8'>" +
                             (profileImage 
                             ? `<img class='reply-profile' src='/upload\${profileImage}' alt='profile'>` 
                             : `<img class='reply-profile' src='/assets/img/anonymous.jpg' alt='profile'>`) +
                         "         <b>" + writer + "</b>" +
                         "       </span>" +
-                        "       <span class='offset-md-6 col-md-3 text-right'><b>" + regDate +
+                        "       <span class='col-md-4 text-right'><b>" + regDate +
                         "</b></span>" +
                         "    </div><br>" +
                         "    <div class='row'>" +
-                        "       <div class='col-md-6'>" + text + "</div>" +
-                        "       <div et-md-2 col-md-4 text-right'>";
+                        "       <div class='col-md-9'>" + text + "</div>" +
+                        "       <div class='col-md-3 text-right'>";
 
                     if (currentAccount === account || auth === 'ADMIN') {
                         tag +=
