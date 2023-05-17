@@ -314,7 +314,7 @@
             } else {
                 for (let rep of replies) {
 
-                    const {rno, writer, text, regDate, account} = rep;
+                    const {rno, writer, text, regDate, account: replyWriter} = rep;
 
                     tag += "<div id='replyContent' class='card-body' data-replyId='" + rno + "'>" +
                         "    <div class='row user-block'>" +
@@ -328,7 +328,7 @@
                         "       <div class='col-md-9'>" + text + "</div>" +
                         "       <div class='col-md-3 text-right'>";
 
-                    if (currentAccount === account || auth === 'ADMIN') {
+                    if (currentAccount === replyWriter || auth === 'ADMIN') {
                         tag +=
                             "         <a id='replyModBtn' class='btn btn-sm btn-outline-dark' data-bs-toggle='modal' data-bs-target='#replyModifyModal'>수정</a>&nbsp;" +
                             "         <a id='replyDelBtn' class='btn btn-sm btn-outline-dark' href='#'>삭제</a>";
@@ -413,7 +413,7 @@
                             alert('댓글이 정상 등록됨!');
                             // 입력창 비우기
                             $rt.value = '';
-                            $rw.value = '';
+                            // $rw.value = '';
 
                             // 마지막페이지 번호
                             const lastPageNo = document.querySelector('.pagination').dataset.fp;
