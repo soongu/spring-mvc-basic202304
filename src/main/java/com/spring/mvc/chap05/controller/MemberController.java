@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,7 +79,10 @@ public class MemberController {
 
     // 로그인 양식 요청
     @GetMapping("/sign-in")
-    public String signIn(HttpServletRequest request) {
+    public String signIn(
+            HttpServletRequest request,
+            Model model
+    ) {
         log.info("/members/sign-in GET - forwarding to jsp");
 
         // 요청 정보 헤더 안에는 Referer라는 키가 있는데
@@ -86,6 +90,9 @@ public class MemberController {
         // URI정보가 기록되어 있음
         String referer = request.getHeader("Referer");
         log.info("referer: {}", referer);
+
+        model.addAttribute("kakaoAppKey", "");
+        model.addAttribute("kakaoRedirect", "");
 
         return "members/sign-in";
     }

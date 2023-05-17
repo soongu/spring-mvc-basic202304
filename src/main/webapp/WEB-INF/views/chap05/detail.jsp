@@ -177,7 +177,7 @@
                                         <div class="profile-box">
                                             <c:choose>
                                                 <c:when test="${login.profile != null}">
-                                                    <img src="/local${login.profile}" alt="프사">
+                                                    <img src="${login.profile}" alt="프사">
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img src="/assets/img/anonymous.jpg" alt="프사">
@@ -271,6 +271,7 @@
         // 로그인한 회원 계정명
         const currentAccount = '${login.account}';
         const auth = '${login.auth}';
+        const loginMethod = '${login.loginMethod}';
 
         // 페이지 렌더링 함수
         function renderPage({
@@ -348,14 +349,20 @@
 
                     const {rno, writer, text, regDate, account: replyWriter, profile} = rep;
 
+                    console.log(rep);
+                    let profileImageTag = '';
+
+                    if (!profile) {
+                        profileImageTag = `<img class='reply-profile' src='/assets/img/anonymous.jpg' alt='profile'>` 
+                     } else {
+                        profileImageTag = `<img class='reply-profile' src='\${profile}' alt='profile'>`;
+                    }
+
                     tag += "<div id='replyContent' class='card-body' data-replyId='" + rno + "'>" +
                         "    <div class='row user-block'>" +
                         "       <span class='col-md-8'>" +
 
-                                (profile 
-                                ? `<img class='reply-profile' src='/local\${profile}' alt='profile'>` 
-                                : `<img class='reply-profile' src='/assets/img/anonymous.jpg' alt='profile'>`
-                                ) +
+                                profileImageTag +
 
                         "          <b>" + writer + "</b>" +
                         "       </span>" +

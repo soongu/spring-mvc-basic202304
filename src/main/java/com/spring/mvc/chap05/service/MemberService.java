@@ -116,12 +116,16 @@ public class MemberService {
         Member member = getMember(account);
 
         // 현재 로그인한 사람의 화면에 보여줄 일부정보
+
+
+
         LoginUserResponseDTO dto = LoginUserResponseDTO.builder()
                 .account(member.getAccount())
                 .nickName(member.getName())
                 .email(member.getEmail())
                 .auth(member.getAuth().toString())
                 .profile(member.getProfileImage())
+                .loginMethod(member.getLoginMethod())
                 .build();
         // 그 정보를 세션에 저장
         session.setAttribute(LoginUtil.LOGIN_KEY, dto);
