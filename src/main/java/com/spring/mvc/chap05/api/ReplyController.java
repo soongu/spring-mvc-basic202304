@@ -43,7 +43,7 @@ public class ReplyController {
         ReplyListResponseDTO replyList
                 = replyService.getList(boardNo, page);
 
-        return ok().body(replyList);
+        return ResponseEntity.ok().body(replyList);
     }
 
     // 댓글 등록 요청
