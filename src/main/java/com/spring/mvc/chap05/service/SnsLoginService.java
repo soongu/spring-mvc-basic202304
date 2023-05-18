@@ -19,10 +19,37 @@ public class SnsLoginService {
     // 카카오 로그인 처리
     public void kakaoService(Map<String, String> requestMap) {
         // 인가코드를 통해 토큰 발급받기
-        getKakaoAccessToken(requestMap);
+        String accessToken = getKakaoAccessToken(requestMap);
+        log.info("token : {}", accessToken);
+
+        // 토큰을 통해 사용자 정보 가져오기
+        getKakaoUserInfo(accessToken);
     }
 
-    private void getKakaoAccessToken(Map<String, String> requestMap) {
+    private void getKakaoUserInfo(String accessToken) {
+
+        String requestUri = "https://kapi.kakao.com/v2/user/me";
+
+        // 요청 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+
+        // 요청 보내기
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<Map> responseEntity = template.exchange(
+                requestUri,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                Map.class
+        );
+
+        // 응답 바디 읽기
+        Map<String, Object> responseData = responseEntity.getBody();
+        log.info("user profile: {}", responseData);
+
+    }
+
+    private String getKakaoAccessToken(Map<String, String> requestMap) {
 
         log.info("requestMap : {}", requestMap);
 
@@ -55,6 +82,8 @@ public class SnsLoginService {
         // 응답데이터에서 필요한 정보를 가져오기
         Map<String, Object> responseData = (Map<String, Object>) responseEntity.getBody();
         log.info("토큰 요청 응답데이터: {}", responseData);
+
+        return (String) responseData.get("access_token");
     }
 
 
